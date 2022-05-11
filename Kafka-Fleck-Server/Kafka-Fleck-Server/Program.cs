@@ -23,7 +23,11 @@ server.Start(socket =>
     };
 });
 
-new Consumer().Consume(allSockets);
+Task t = Task.Factory.StartNew(() =>
+{
+    new Consumer().Consume(allSockets);
+});
+
 var input = Console.ReadLine();
 while (input != "exit")
 {

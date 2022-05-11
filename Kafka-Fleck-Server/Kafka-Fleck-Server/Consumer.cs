@@ -5,8 +5,8 @@ namespace Kafka_Fleck_Server;
 
 internal class Consumer
 {
-    private readonly string bsServer = "172.16.250.13:9092";
-    private const string _topic = "house";
+    private readonly string _bServer = "localhost:9092"; //172.16.250.13
+    private const string _topic = "data";
     private readonly ConsumerConfig _config;
     private readonly CancellationTokenSource _cts = new();
 
@@ -19,7 +19,7 @@ internal class Consumer
         _config = new()
         {
             GroupId = Guid.NewGuid().ToString(),
-            BootstrapServers = bsServer,
+            BootstrapServers = _bServer,
             AutoOffsetReset = AutoOffsetReset.Latest
         };
     }
@@ -35,7 +35,7 @@ internal class Consumer
                 {
                     var cr = consumer.Consume(_cts.Token);
                     var data = cr.Message.Value;
-                    foreach(var socket in allSockets)
+                    foreach (var socket in allSockets)
                     {
                         socket.Send(data);
                     }
@@ -44,6 +44,10 @@ internal class Consumer
             catch (OperationCanceledException)
             {
                 // Ctrl-C was pressed.
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
             finally
             {
