@@ -41,15 +41,15 @@ export default {
         transmitData(){
             //send data by xml
             let data = "<?xml version=\"1.0\" encoding=\"utf-8\"?> \n";
-            data += "<sold:items>\n"
+            data += "<items>\n"
                 for (var i in this.transactionItems) {
-                data += " <sold:item> \n"
-                data += "  <sold:id>" + this.transactionItems[i].id + "</sold:id>\n";
-                data += "  <sold:name>" + this.transactionItems[i].name + "</sold:name>\n";
-                data += "  <sold:price>" + this.transactionItems[i].price + "</sold:price>\n";
-                data += " </sold:item> \n";
+                data += " <item> \n"
+                data += "  <id>" + this.transactionItems[i].id + "</id>\n";
+                data += "  <name>" + this.transactionItems[i].name + "</name>\n";
+                data += "  <price>" + this.transactionItems[i].price + "</price>\n";
+                data += " </item> \n";
             }    
-            data += "</sold:items>\n"
+            data += "</items>\n"
             console.log(data)
             axios.post("http://localhost:8090", {data : data});
         },
